@@ -32,16 +32,16 @@ class Pengiriman extends ResourceController
      *
      * @return mixed
      */
-    public function show($id = null)
+    public function show($cari = null)
     {
         $modelPngr = new Modelpengiriman();
-        $data = $modelPngr ->orLike('idP', $id) 
-            ->orLike('namaPengirim', $id)->get()->getResult();
+        $data = $modelPngr ->orLike('idP', $cari) 
+            ->orLike('namaPengirim', $cari)->get()->getResult();
         
         if(count($data) > 1){
             $response = [
                 'status' => 200,
-                'error' => "false",
+                'error' => false,
                 'message' => '',
                 'totaldata' => count($data),
                 'data' => $data,
@@ -51,7 +51,7 @@ class Pengiriman extends ResourceController
         } else if(count($data) == 1){
             $response = [
                 'status' => 200,
-                'error' => "false",
+                'error' => false,
                 'message' => '',
                 'totaldata' => count($data),
                 'data' => $data,
@@ -59,7 +59,7 @@ class Pengiriman extends ResourceController
 
             return $this->respond($response, 200);
         }else{
-            return $this->failNotFound('Maaf data Pengiriman ' . $id . 'tidak ditemukan');
+            return $this->failNotFound('Maaf data Pengiriman ' . $cari . 'tidak ditemukan');
         }
     }
 
@@ -101,7 +101,7 @@ class Pengiriman extends ResourceController
 
         $response = [
             'status' => 201,
-            'error' => "false",
+            'error' => false,
             'message' => "Data pengiriman berhasil disimpan"
         ];
 

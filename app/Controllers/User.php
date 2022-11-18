@@ -32,11 +32,11 @@ class User extends ResourceController
      *
      * @return mixed
      */
-    public function show($id = null)
+    public function show($cari = null)
     {
         $modelUsr = new Modeluser();
-        $data = $modelUsr ->orLike('idU', $id) 
-            ->orLike('username', $id)->get()->getResult();
+        $data = $modelUsr ->orLike('idU', $cari) 
+            ->orLike('username', $cari)->get()->getResult();
         
         if(count($data) > 1){
             $response = [
@@ -59,7 +59,7 @@ class User extends ResourceController
 
             return $this->respond($response, 200);
         }else{
-            return $this->failNotFound('Maaf data user ' . $id . 'tidak ditemukan');
+            return $this->failNotFound('Maaf data user ' . $cari . 'tidak ditemukan');
         }
     }
 

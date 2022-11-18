@@ -6,12 +6,10 @@ use CodeIgniter\Model;
 
 class Modelpengiriman extends Model
 {
-    protected $DBGroup          = 'default';
     protected $table            = 'pengiriman';
     protected $primaryKey       = 'idP';
-    protected $useAutoIncrement = true;
     protected $allowedFields    = [
-        'namaPengirim', 'namaPenerima', 'desBarang', 'kotaAsal', 'kotaTujuan', 'alamatLengkap', 'ongkos'
+        'idP', 'namaPengirim', 'namaPenerima', 'desBarang', 'kotaAsal', 'kotaTujuan', 'alamatLengkap', 'ongkos'
      ];
     
 }
