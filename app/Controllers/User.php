@@ -81,16 +81,20 @@ class User extends ResourceController
     public function create()
     {
         $modelUsr = new Modeluser();
-        $email = $this->request->getPost("email");
+        $useremail = $this->request->getPost("useremail");
         $username = $this->request->getPost("username");
-        $password = $this->request->getPost("password");
+        $userpassword = $this->request->getPost("userpassword");
         $tanggalLahir = $this->request->getPost("tanggalLahir");
         $noTelepon = $this->request->getPost("noTelepon");
 
+        $opt = [
+            'cost' => 10,
+        ];
+
         $modelUsr->insert([
-            'email' => $email,
+            'useremail' => $useremail,
             'username' => $username,
-            'password' => $password,
+            'userpassword' => password_hash($userpassword, PASSWORD_DEFAULT, $opt),
             'tanggalLahir' => $tanggalLahir,
             'noTelepon' => $noTelepon,
         ]);
@@ -122,15 +126,25 @@ class User extends ResourceController
     public function update($id = null)
     {
         $modelUsr = new Modeluser();
+
+        $opt = [
+            'cost' => 10,
+        ];
+
+        
+
         $data = [
-            'email' => $this->request->getVar("email"),
+            'useremail' => $this->request->getVar("useremail"),
             'username' => $this->request->getVar("username"),
-            'password' => $this->request->getVar("password"),
+            'userpassword' => $this->request->getVar("userpassword"),
             'tanggalLahir' => $this->request->getVar("tanggalLahir"),
             'noTelepon' => $this->request->getVar("noTelepon"),
         ];
 
         $data = $this->request->getRawInput();
+        $password = password_hash($data['userpassword'], PASSWORD_DEFAULT, $opt);
+        $data['userpassword'] = $password;
+        
         $modelUsr->update($id, $data);
         $reaponse = [
             'status' => 200,
