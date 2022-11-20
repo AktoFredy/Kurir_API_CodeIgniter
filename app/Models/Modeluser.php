@@ -9,7 +9,7 @@ class Modeluser extends Model
     protected $table            = 'users';
     protected $primaryKey       = 'idU';
     protected $allowedFields    = [
-        'idU', 'useremail', 'username', 'userpassword', 'tanggalLahir', 'noTelepon' 
+        'idU', 'useremail', 'username', 'userpassword', 'tanggalLahir', 'noTelepon', 'userfoto', 
     ];
 
 }
