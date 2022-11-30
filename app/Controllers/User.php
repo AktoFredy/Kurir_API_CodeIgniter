@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Modeluser;
+use CodeIgniter\HTTP\Response;
 use CodeIgniter\RESTful\ResourceController;
 
 class User extends ResourceController
@@ -80,32 +81,51 @@ class User extends ResourceController
      */
     public function create()
     {
-        $modelUsr = new Modeluser();
-        $useremail = $this->request->getPost("useremail");
-        $username = $this->request->getPost("username");
-        $userpassword = $this->request->getPost("userpassword");
-        $tanggalLahir = $this->request->getPost("tanggalLahir");
-        $noTelepon = $this->request->getPost("noTelepon");
+        if(!$this->validate([
+            'useremail' => 'required|valid_email',
+            'username' => 'required|is_unique[users.username]',
+            'userpassword' => 'required',
+            'confirmpassword' => 'required|matches[userpassword]',
+            'tanggalLahir' => 'required|valid_date[Y-m-d]',
+            'noTelepon' => 'required|numeric|min_length[10]|max_length[13]'
+        ])){
+            $validation = \Config\Services::validation();
 
-        $opt = [
-            'cost' => 10,
-        ];
+            $response = [
+                'status' => 404,
+                'error' => true,
+                'message' => $validation->getErrors()
+            ];
 
-        $modelUsr->insert([
-            'useremail' => $useremail,
-            'username' => $username,
-            'userpassword' => password_hash($userpassword, PASSWORD_DEFAULT, $opt),
-            'tanggalLahir' => $tanggalLahir,
-            'noTelepon' => $noTelepon,
-        ]);
+            return $this->respond($response, 404);
+        }else{
+            $modelUsr = new Modeluser();
+            $useremail = $this->request->getPost("useremail");
+            $username = $this->request->getPost("username");
+            $userpassword = $this->request->getPost("userpassword");
+            $tanggalLahir = $this->request->getPost("tanggalLahir");
+            $noTelepon = $this->request->getPost("noTelepon");
 
-        $response = [
-            'status' => 201,
-            'error' => "false",
-            'message' => "Data berhasil disimpan"
-        ];
+            $opt = [
+                'cost' => 10,
+            ];
 
-        return $this->respond($response, 201);
+            $modelUsr->insert([
+                'useremail' => $useremail,
+                'username' => $username,
+                'userpassword' => password_hash($userpassword, PASSWORD_DEFAULT, $opt),
+                'tanggalLahir' => $tanggalLahir,
+                'noTelepon' => $noTelepon,
+            ]);
+
+            $response = [
+                'status' => 201,
+                'error' => "false",
+                'message' => "Data berhasil disimpan"
+            ];
+
+            return $this->respond($response, 201);
+        }
     }
 
     /**
@@ -130,8 +150,6 @@ class User extends ResourceController
         $opt = [
             'cost' => 10,
         ];
-
-        
 
         $data = [
             'useremail' => $this->request->getVar("useremail"),

@@ -80,32 +80,51 @@ class Pengiriman extends ResourceController
      */
     public function create()
     {
-        $modelPngr = new Modelpengiriman();
-        $namaPengirim = $this->request->getPost("namaPengirim");
-        $namaPenerima = $this->request->getPost("namaPenerima");
-        $desBarang = $this->request->getPost("desBarang");
-        $kotaAsal = $this->request->getPost("kotaAsal");
-        $kotaTujuan = $this->request->getPost("kotaTujuan");
-        $alamatLengkap = $this->request->getPost("alamatLengkap");
-        $ongkos = $this->request->getPost("ongkos");
+        if(!$this->validate([
+            'namaPengirim' => 'required',
+            'namaPenerima' => 'required|differs[namaPengirim]',
+            'desBarang' => 'required',
+            'kotaAsal' => 'required',
+            'kotaTujuan' => 'required',
+            'alamatLengkap' => 'required'
+        ])){
+            $validation = \Config\Services::validation();
 
-        $modelPngr->insert([
-            'namaPengirim' => $namaPengirim,
-            'namaPenerima' => $namaPenerima,
-            'desBarang' => $desBarang,
-            'kotaAsal' => $kotaAsal,
-            'kotaTujuan' => $kotaTujuan,
-            'alamatLengkap' => $alamatLengkap,
-            'ongkos' => $ongkos,
-        ]);
+            $response = [
+                'status' => 404,
+                'error' => true,
+                'message' => $validation->getErrors()
+            ];
 
-        $response = [
-            'status' => 201,
-            'error' => false,
-            'message' => "Data pengiriman berhasil disimpan"
-        ];
-
-        return $this->respond($response, 201);
+            return $this->respond($response, 404);
+        }else{
+            $modelPngr = new Modelpengiriman();
+            $namaPengirim = $this->request->getPost("namaPengirim");
+            $namaPenerima = $this->request->getPost("namaPenerima");
+            $desBarang = $this->request->getPost("desBarang");
+            $kotaAsal = $this->request->getPost("kotaAsal");
+            $kotaTujuan = $this->request->getPost("kotaTujuan");
+            $alamatLengkap = $this->request->getPost("alamatLengkap");
+            $ongkos = $this->request->getPost("ongkos");
+    
+            $modelPngr->insert([
+                'namaPengirim' => $namaPengirim,
+                'namaPenerima' => $namaPenerima,
+                'desBarang' => $desBarang,
+                'kotaAsal' => $kotaAsal,
+                'kotaTujuan' => $kotaTujuan,
+                'alamatLengkap' => $alamatLengkap,
+                'ongkos' => $ongkos,
+            ]);
+    
+            $response = [
+                'status' => 201,
+                'error' => false,
+                'message' => "Data pengiriman berhasil disimpan"
+            ];
+    
+            return $this->respond($response, 201);
+        }
     }
 
     /**
