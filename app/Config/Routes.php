@@ -40,6 +40,7 @@ $routes->resource('user');
 $routes->resource('pengiriman', [
     'filter' => 'auth',
 ]);
+// $routes->resource('pengiriman');
 $routes->resource('login');
 $routes->resource('upload');
 
