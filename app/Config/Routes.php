@@ -41,6 +41,15 @@ $routes->resource('pengiriman', [
     'filter' => 'auth',
 ]);
 // $routes->resource('pengiriman');
+$routes->resource('kiriman', [
+    'filter' => 'auth',
+]);
+
+$routes->resource('penerima', [
+    'filter' => 'auth',
+]);
+
+
 $routes->resource('login');
 $routes->resource('upload');
 
