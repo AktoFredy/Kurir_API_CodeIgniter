@@ -32,10 +32,10 @@ class Database extends Config
      */
     public $default = [
         'DSN'      => '',
-        'hostname' => 'localhost',
+        'hostname' => 'mysql://root:PaHengjNK4uOAjqAJnfh@containers-us-west-144.railway.app:7738/railway',
         'username' => 'root',
-        'password' => '',
-        'database' => 'dbapitubes',
+        'password' => 'PaHengjNK4uOAjqAJnfh',
+        'database' => '',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,
