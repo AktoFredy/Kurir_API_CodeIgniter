@@ -48,6 +48,7 @@ $routes->resource('kiriman', [
 $routes->resource('penerima', [
     'filter' => 'auth',
 ]);
+$routes->resource('faq');
 
 
 $routes->resource('login');
